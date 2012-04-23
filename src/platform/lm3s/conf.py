@@ -31,9 +31,9 @@ if comp[ 'cpu' ] == 'LM3S9B92' or comp[ 'cpu' ] == 'LM3S9D92':
   specific_files = specific_files + " usb_serial_structs.c"
 
 
-if comp[ 'board' ] == 'EK-LM3S9B92':
+if comp[ 'cpu' ] == 'LM3S9B92':
   ldscript = "lm3s-9b92.ld"
-elif comp[ 'board' ] == 'SOLDERCORE':
+elif comp[ 'cpu' ] == 'LM3S9D92':
   ldscript = "lm3s-9d92.ld"
 else:
   ldscript = "lm3s.ld"
