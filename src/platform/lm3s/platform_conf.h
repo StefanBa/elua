@@ -12,46 +12,41 @@
 
 // *****************************************************************************
 // Define here what components you want for this platform
-<<<<<<< HEAD
+
 //#if !defined( ELUA_BOARD_SOLDERCORE )
   #define BUILD_XMODEM
   #define BUILD_TERM
 //#endif
-=======
->>>>>>> f719f91... Plotform_conf configured for p6
 
-//  #define BUILD_XMODEM
+
+//#define BUILD_XMODEM
 #define BUILD_SHELL
 #define BUILD_ROMFS
-#define BUILD_MMCFS
-#define BUILD_RFS
-
+//#define BUILD_MMCFS
+//#define BUILD_RFS
 //#define BUILD_USB_CDC
-
 #define BUILD_UIP
 #define BUILD_DHCPC
 #define BUILD_DNS
-
 #define BUILD_ADC
 #define BUILD_RPC
-<<<<<<< HEAD
+
 //#if defined( ELUA_BOARD_SOLDERCORE )
 //  #define BUILD_CON_TCP
 //#else
   #define BUILD_CON_GENERIC
 //#endif
-=======
+
 
 //#define BUILD_CON_TCP
 #define BUILD_CON_GENERIC
 
->>>>>>> f719f91... Plotform_conf configured for p6
+
 #define BUILD_C_INT_HANDLERS
 
 #define PLATFORM_HAS_SYSTIMER
 
-<<<<<<< HEAD
-=======
+
 #define RFS_TRANSPORT_UDP
 #define RFS_BUFFER_SIZE       BUF_SIZE_512
 #define RFS_TIMEOUT           100000
@@ -61,7 +56,7 @@
 #endif
 
 
->>>>>>> f719f91... Plotform_conf configured for p6
+
 // *****************************************************************************
 // UART/Timer IDs configuration data (used in main.c)
 
