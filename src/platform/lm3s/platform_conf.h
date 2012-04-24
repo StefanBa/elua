@@ -215,8 +215,8 @@
 #define NUM_CAN               1
 
 // Enable RX buffering on UART
-//#define BUF_ENABLE_UART
-//#define CON_BUF_SIZE          BUF_SIZE_128
+#define BUF_ENABLE_UART
+#define CON_BUF_SIZE          BUF_SIZE_128
 
 // ADC Configuration Params
 #define ADC_BIT_RESOLUTION    10
