@@ -25,11 +25,11 @@
 //#define BUILD_MMCFS
 //#define BUILD_RFS
 //#define BUILD_USB_CDC
-#define BUILD_UIP
-#define BUILD_DHCPC
-#define BUILD_DNS
+//#define BUILD_UIP
+//#define BUILD_DHCPC
+//#define BUILD_DNS
 #define BUILD_ADC
-#define BUILD_RPC
+//#define BUILD_RPC
 
 //#if defined( ELUA_BOARD_SOLDERCORE )
 //  #define BUILD_CON_TCP
