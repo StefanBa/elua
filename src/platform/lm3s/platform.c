@@ -447,8 +447,8 @@ void platform_spi_select( unsigned id, int is_select )
 // All possible LM3S uarts defs
 const u32 uart_base[] = { UART0_BASE, UART1_BASE, UART2_BASE };
 static const u32 uart_sysctl[] = { SYSCTL_PERIPH_UART0, SYSCTL_PERIPH_UART1, SYSCTL_PERIPH_UART2 };
-static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTD_BASE, GPIO_PORTG_BASE };
-static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_2 | GPIO_PIN_3, GPIO_PIN_0 | GPIO_PIN_1 };
+static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTB_BASE, GPIO_PORTG_BASE };
+static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1 };
 
 static void uarts_init()
 {
@@ -460,6 +460,13 @@ static void uarts_init()
 u32 platform_uart_setup( unsigned id, u32 baud, int databits, int parity, int stopbits )
 {
   u32 config;
+
+#if defined( FORLM3S9B92 ) || defined(FORLM3S9D92)
+  //GPIOPinConfigure(GPIO_PD2_U1RX);
+  //GPIOPinConfigure(GPIO_PD3_U1TX);
+  GPIOPinConfigure(GPIO_PB0_U1RX);
+  GPIOPinConfigure(GPIO_PB1_U1TX);
+#endif
 
   if( id < NUM_UART )
   {
