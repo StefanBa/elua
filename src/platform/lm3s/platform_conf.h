@@ -22,7 +22,7 @@
 //#define BUILD_XMODEM
 #define BUILD_SHELL
 #define BUILD_ROMFS
-//#define BUILD_MMCFS
+#define BUILD_MMCFS
 //#define BUILD_RFS
 //#define BUILD_USB_CDC
 //#define BUILD_UIP
@@ -63,7 +63,7 @@
 #if defined( ELUA_BOARD_SOLDERCORE )
 #define CON_UART_ID         CDC_UART_ID
 #else
-#define CON_UART_ID           0
+#define CON_UART_ID           1
 #endif
 
 #define CON_UART_SPEED        115200
@@ -251,6 +251,11 @@
   #define MMCFS_CS_PORT                6
   #define MMCFS_CS_PIN                 7
   #define MMCFS_SPI_NUM                1
+#elif defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
+  // CPU LM3S9B92 or LM3S9C92
+  #define MMCFS_CS_PORT                4
+  #define MMCFS_CS_PIN                 2
+  #define MMCFS_SPI_NUM                0
 #elif defined( BUILD_MMCFS ) && !defined( MMCFS_SPI_NUM )
   #warning "MMCFS was enabled, but required SPI & CS data are undefined, disabling MMCFS"
   #undef BUILD_MMCFS
