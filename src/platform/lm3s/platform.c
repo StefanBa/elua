@@ -99,6 +99,7 @@ int platform_init()
   // Set the clocking to run from PLL
 #if defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
   MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
+
 #else
   MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);
 #endif
@@ -183,6 +184,11 @@ static void pios_init()
 
   for( i = 0; i < NUM_PIO; i ++ )
     MAP_SysCtlPeripheralEnable(pio_sysctl[ i ]);
+
+  GPIO_PORTB_LOCK_R = GPIO_LOCK_KEY;
+  GPIO_PORTB_CR_R |= GPIO_PIN_7;
+
+
 }
 
 pio_type platform_pio_op( unsigned port, pio_type pinmask, int op )
