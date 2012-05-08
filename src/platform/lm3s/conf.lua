@@ -32,9 +32,9 @@ if cpu == 'LM3S9B92' or cpu == 'LM3S9D92' then
    specific_files = specific_files .. "  usb_serial_structs.c"
 end
 
-if board == 'EK-LM3S9B92'  then
+if cpu == 'LM3S9B92'  then
    ldscript = "lm3s-9b92.ld"
-elseif board == 'SOLDERCORE' then
+elseif cpu == 'LM3S9D92' then
    ldscript = "lm3s-9d92.ld"
 else
    ldscript = "lm3s.ld"
