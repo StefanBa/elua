@@ -10,6 +10,10 @@
 #include "driverlib/sysctl.h"
 #include "elua_int.h"
 
+#include "sermux.h"                                             // for virtual uart IDs
+#include "buf.h"                                                // for buffer sizes
+
+
 // *****************************************************************************
 // Define here what components you want for this platform
 
@@ -55,6 +59,21 @@
   #define BUILD_TERM
 #endif
 
+// *****************************************************************************
+// Mux
+/*
+#define BUILD_SERMUX                                            // enable serial multiplexer support
+#define CON_UART_ID         ( SERMUX_SERVICE_ID_FIRST + 1 )     // console runs on the second virtual UART
+#define CON_BUF_SIZE        BUF_SIZE_128                        // size of console UART buffer, cannot be 0
+//#define RFS_UART_ID         ( SERMUX_SERVICE_ID_FIRST )         // RFS runs on the first virtual UART
+//#define RFS_BUFFER_SIZE     BUF_SIZE_512                        // size of the RFS UART buffer, cannot be 0
+// Serial multiplexer data
+#define SERMUX_PHYS_ID      0                                   // multiplexer runs on UART 0
+#define SERMUX_PHYS_SPEED   115200                              // multiplexer runs at 115200 baud
+#define SERMUX_NUM_VUART    2                                   // multiplexer creates 2 virtual UARTs
+#define SERMUX_BUFFER_SIZES { CON_BUF_SIZE, CON_BUF_SIZE }   // buffer sizes for the virtual UARTs
+
+*/
 
 
 // *****************************************************************************
@@ -253,7 +272,11 @@
   #define MMCFS_CS_PIN                 7
   #define MMCFS_SPI_NUM                1
 #elif defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
+<<<<<<< Updated upstream
   // CPU LM3S9B92 or LM3S9C92
+=======
+  // p6
+>>>>>>> Stashed changes
   #define MMCFS_CS_PORT                4
   #define MMCFS_CS_PIN                 2
   #define MMCFS_SPI_NUM                0
