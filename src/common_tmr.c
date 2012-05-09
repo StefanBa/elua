@@ -312,7 +312,7 @@ timer_data_type platform_timer_get_diff_us( unsigned id, timer_data_type start, 
 {
   u32 freq;
   u64 tstart = ( u64 )start, tend = ( u64 )end;
-    
+
   freq = platform_timer_op( id, PLATFORM_TIMER_OP_GET_CLOCK, 0 );
   if( tstart > tend )
     tend += platform_timer_op( id, PLATFORM_TIMER_OP_GET_MAX_CNT, 0 ) + 1;

@@ -453,8 +453,15 @@ void platform_spi_select( unsigned id, int is_select )
 // All possible LM3S uarts defs
 const u32 uart_base[] = { UART0_BASE, UART1_BASE, UART2_BASE };
 static const u32 uart_sysctl[] = { SYSCTL_PERIPH_UART0, SYSCTL_PERIPH_UART1, SYSCTL_PERIPH_UART2 };
-static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTB_BASE, GPIO_PORTG_BASE };
-static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1 };
+
+#if defined( ELUA_BOARD_SARHA )
+	static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTB_BASE, GPIO_PORTG_BASE };
+	static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1 };
+#else
+	static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTD_BASE, GPIO_PORTG_BASE };
+	static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_2 | GPIO_PIN_3, GPIO_PIN_0 | GPIO_PIN_1 };
+#endif
+
 
 static void uarts_init()
 {
@@ -467,11 +474,11 @@ u32 platform_uart_setup( unsigned id, u32 baud, int databits, int parity, int st
 {
   u32 config;
 
-#if defined( FORLM3S9B92 ) || defined(FORLM3S9D92)
-  //GPIOPinConfigure(GPIO_PD2_U1RX);
-  //GPIOPinConfigure(GPIO_PD3_U1TX);
+#if defined( ELUA_BOARD_SARHA )
   GPIOPinConfigure(GPIO_PB0_U1RX);
   GPIOPinConfigure(GPIO_PB1_U1TX);
+  GPIOPinConfigure(GPIO_PG0_U2RX);
+  GPIOPinConfigure(GPIO_PG1_U2TX);
 #endif
 
   if( id < NUM_UART )
@@ -543,6 +550,7 @@ static void timers_init()
   {
     MAP_SysCtlPeripheralEnable(timer_sysctl[ i ]);
     MAP_TimerConfigure(timer_base[ i ], TIMER_CFG_32_BIT_PER);
+    //MAP_TimerConfigure(timer_base[ i ], TIMER_CFG_32_BIT_PER_UP);
     MAP_TimerEnable(timer_base[ i ], TIMER_A);
   }
 }

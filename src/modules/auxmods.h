@@ -6,8 +6,8 @@
 
 #include "lua.h"
 
-#define AUXLIB_FILE "file"
-LUALIB_API int ( luaopen_file )( lua_State *L );
+#define AUXLIB_MYMOD "mymod"
+LUALIB_API int ( luaopen_mymod )( lua_State *L );
 
 #define AUXLIB_PIO      "pio"
 LUALIB_API int ( luaopen_pio )( lua_State *L );

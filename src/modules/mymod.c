@@ -13,18 +13,17 @@
 
 
 /* Our example idiotic function */
-static int file_dostuff( lua_State *L ){
+static int mymod_dostuff( lua_State *L ){
         lua_pushinteger( L, 43 );
         return 1;
 }
 
-static int file_getsize( lua_State *L )
+static int mymod_getsize( lua_State *L )
 {
   const DM_DEVICE *pdev;
-  unsigned dev, i;
+  unsigned dev;
   DM_DIR *d;
   struct dm_dirent *ent;
-  u32 total;
 
   const char *buf;
   size_t len;
@@ -69,10 +68,10 @@ static int file_getsize( lua_State *L )
  */
 #define MIN_OPT_LEVEL 2
 #include "lrodefs.h"
-const LUA_REG_TYPE file_map[] =
+const LUA_REG_TYPE mymod_map[] =
 {
-  { LSTRKEY( "getsize" ), LFUNCVAL( file_getsize ) },
-  { LSTRKEY( "dostuff" ), LFUNCVAL( file_dostuff ) },
+  { LSTRKEY( "getsize" ), LFUNCVAL( mymod_getsize ) },
+  { LSTRKEY( "dostuff" ), LFUNCVAL( mymod_dostuff ) },
   { LSTRKEY( "magic_number" ), LNUMVAL( IMAG_MAGICNUMBER ) },
   { LNILKEY, LNILVAL }
 };
@@ -82,11 +81,11 @@ const LUA_REG_TYPE file_map[] =
  * all of this on the romtable, so... Nothing to register.
  * The '#else' part we register it like in Lua and the function and constant will live in RAM.
  */
-LUALIB_API int luaopen_file( lua_State *L ){
+LUALIB_API int luaopen_mymod( lua_State *L ){
 #if LUA_OPTIMIZE_MEMORY > 0
         return 0;
 #else
-        LREGISTER( L, AUXLIB_IMAG, file_map );
+        LREGISTER( L, AUXLIB_IMAG, mymod_map );
         return 1;
 #endif
 }

@@ -127,6 +127,7 @@ board_list = { 'SAM7-EX256' : [ 'AT91SAM7X256', 'AT91SAM7X512' ],
                'MBED' : ['LPC1768'],
                'MIZAR32' : [ 'AT32UC3A0256', 'AT32UC3A0512', 'AT32UC3A0128' ],
                'NETDUINO' : [ 'AT91SAM7X512' ],
+               'SARHA' : [ 'LM3S9D92' ],
             }
 
 cpu_list = sum([board_list[i] for i in board_list],[])
@@ -401,7 +402,7 @@ if not GetOption( 'help' ):
   comp.Append(CPPPATH = ['src/fatfs'])
 
   # Lua module files
-  module_names = "file.c pio.c spi.c tmr.c pd.c uart.c term.c pwm.c lpack.c bit.c net.c cpu.c adc.c can.c luarpc.c bitarray.c elua.c i2c.c"
+  module_names = "mymod.c pio.c spi.c tmr.c pd.c uart.c term.c pwm.c lpack.c bit.c net.c cpu.c adc.c can.c luarpc.c bitarray.c elua.c i2c.c"
   module_files = " " + " ".join( [ "src/modules/%s" % name for name in module_names.split() ] )
 
   # Remote file system files

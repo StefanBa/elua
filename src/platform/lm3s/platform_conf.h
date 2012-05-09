@@ -13,52 +13,39 @@
 #include "sermux.h"                                             // for virtual uart IDs
 #include "buf.h"                                                // for buffer sizes
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 // *****************************************************************************
 // Define here what components you want for this platform
 
-//#if !defined( ELUA_BOARD_SOLDERCORE )
-  #define BUILD_XMODEM
-  #define BUILD_TERM
-//#endif
 
-
-//#define BUILD_XMODEM
 #define BUILD_SHELL
 #define BUILD_ROMFS
 #define BUILD_MMCFS
+#define BUILD_ADC
+#define BUILD_CON_GENERIC
+#define BUILD_C_INT_HANDLERS
+
 //#define BUILD_RFS
+#define BUILD_XMODEM
 //#define BUILD_USB_CDC
 //#define BUILD_UIP
 //#define BUILD_DHCPC
 //#define BUILD_DNS
-#define BUILD_ADC
 //#define BUILD_RPC
-
-//#if defined( ELUA_BOARD_SOLDERCORE )
-//  #define BUILD_CON_TCP
-//#else
-  #define BUILD_CON_GENERIC
-//#endif
-
-
 //#define BUILD_CON_TCP
-#define BUILD_CON_GENERIC
-
-
-#define BUILD_C_INT_HANDLERS
+//#define BUILD_SERMUX
 
 #define PLATFORM_HAS_SYSTIMER
 
-
-#define RFS_TRANSPORT_UDP
-#define RFS_BUFFER_SIZE       BUF_SIZE_512
-#define RFS_TIMEOUT           100000
 
 #ifdef BUILD_CON_GENERIC
   #define BUILD_TERM
 #endif
 
+<<<<<<< Updated upstream
 // *****************************************************************************
 // Mux
 /*
@@ -75,19 +62,35 @@
 
 */
 
+=======
+#ifdef BUILD_RFS
+#define RFS_UART_ID				2
+#define RFS_BUFFER_SIZE    		BUF_SIZE_512                        // size of the RFS UART buffer, cannot be 0
+#define RFS_TIMER_ID			0
+#define RFS_UART_SPEED			115200
+#define RFS_TIMEOUT       		100000
+#endif
+>>>>>>> Stashed changes
 
 // *****************************************************************************
 // UART/Timer IDs configuration data (used in main.c)
 
-#if defined( ELUA_BOARD_SOLDERCORE )
-#define CON_UART_ID         CDC_UART_ID
-#else
-#define CON_UART_ID           1
-#endif
 
+#if defined( ELUA_BOARD_SOLDERCORE )
+	#define CON_UART_ID         CDC_UART_ID
+#elif defined( ELUA_BOARD_SARHA )
+	#define CON_UART_ID         1
+#else
+	#define CON_UART_ID      	0
+#endif
 #define CON_UART_SPEED        115200
-#define TERM_LINES            25
+
+
+
+#define TERM_LINES            30
 #define TERM_COLS             80
+
+
 
 // *****************************************************************************
 // Auxiliary libraries that will be compiled for this platform
@@ -148,7 +151,7 @@
 
 
 #define LUA_PLATFORM_LIBS_ROM\
-  _ROM( AUXLIB_FILE, luaopen_file, file_map )\
+  _ROM( AUXLIB_MYMOD, luaopen_mymod, mymod_map )\
   _ROM( AUXLIB_PIO, luaopen_pio, pio_map )\
   _ROM( AUXLIB_SPI, luaopen_spi, spi_map )\
   _ROM( AUXLIB_TMR, luaopen_tmr, tmr_map )\
@@ -271,11 +274,16 @@
   #define MMCFS_CS_PORT                6
   #define MMCFS_CS_PIN                 7
   #define MMCFS_SPI_NUM                1
+<<<<<<< Updated upstream
 #elif defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
 <<<<<<< Updated upstream
   // CPU LM3S9B92 or LM3S9C92
 =======
   // p6
+>>>>>>> Stashed changes
+=======
+#elif defined( ELUA_BOARD_SARHA )
+  // SARHA
 >>>>>>> Stashed changes
   #define MMCFS_CS_PORT                4
   #define MMCFS_CS_PIN                 2
@@ -295,9 +303,9 @@
 // #define PIO_PINS_PER_PORT (n) if each port has the same number of pins, or
 // #define PIO_PIN_ARRAY { n1, n2, ... } to define pins per port in an array
 // Use #define PIO_PINS_PER_PORT 0 if this isn't needed
-#if defined(FORLM3S1968)
-  #define PIO_PIN_ARRAY         { 8, 8, 8, 4, 4, 8, 8, 4}
-#elif defined(FORLM3S9B92) || defined( FORLM3S9D92 )
+#if defined( FORLM3S1968 )
+  #define PIO_PIN_ARRAY         { 8, 8, 8, 4, 4, 8, 8, 4 }
+#elif defined( FORLM3S9B92) || defined( FORLM3S9D92 )
   #define PIO_PIN_ARRAY         { 8, 8, 8, 8, 8, 6, 8, 8, 8 }
 #else
   #define PIO_PIN_ARRAY         { 8, 8, 8, 8, 4, 4, 2 }

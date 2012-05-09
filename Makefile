@@ -8,12 +8,15 @@
 ##				von FreeRTOS stammt.
 ##############################################################################
 
-BOARD = ek-lm3s9b92
+BOARD = SARHA
+#BOARD = ek-lm3s9b92
 #BOARD = ek-lm3s8962
 
 CPU = lm3s9d92
 #CPU = lm3s9b92
 #CPU = lm3s8962
+
+FLASHCONFIG = ek-lm3s9b92
 
 TARGET = elua_lua_$(CPU)
 
@@ -44,16 +47,14 @@ SCONS_BUILD += romfs=compile
 SCONS_BUILD += optram=1
 SCONS_BUILD += prog
 
-LM_FLASH = --quick-set=$(BOARD)
+LM_FLASH = --quick-set=$(FLASHCONFIG)
 LM_FLASH += --erase all
 LM_FLASH += --reset
 LM_FLASH += $(TARGET).bin
 
 all:
-	
-#	xcopy /y ${workspace_loc:/ControlUnitGit/src} ${project_loc:/romfs}
-	xcopy /y C:\Users\stefan\Documents\Semester5\mc\workspaceElua\ControlUnitGit\src C:\Users\stefan\Documents\Semester5\mc\workspaceElua\eluaGit\romfs
-	cd ${project_loc}
+
+	xcopy /y $(CWD)\..\ControlUnitGit\src $(CWD)\romfs
 	scons $(SCONS_BUILD)
 
 program_ocd: $(TARGET).bin
