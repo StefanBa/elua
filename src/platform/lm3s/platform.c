@@ -838,6 +838,9 @@ static void adcs_init()
   MAP_SysCtlADCSpeedSet(SYSCTL_ADCSPEED_500KSPS);
   MAP_SysCtlADCSpeedSet(SYSCTL_ADCSPEED_1MSPS);
   
+  // Try ramping up max bit resolution
+  MAP_ADCResolutionSet( ADC_BASE, ADC_RES_12BIT );
+
   for( id = 0; id < NUM_ADC; id ++ )
     adc_init_ch_state( id );
 

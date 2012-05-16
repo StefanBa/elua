@@ -20,13 +20,14 @@
 
 #define BUILD_SHELL
 #define BUILD_ROMFS
-#define BUILD_MMCFS
+//#define BUILD_MMCFS
 #define BUILD_ADC
 #define BUILD_CON_GENERIC
 #define BUILD_C_INT_HANDLERS
+//#define BUILD_LINENOISE
+#define BUILD_XMODEM
 
 //#define BUILD_RFS
-#define BUILD_XMODEM
 //#define BUILD_USB_CDC
 //#define BUILD_UIP
 //#define BUILD_DHCPC
@@ -43,14 +44,18 @@
 #endif
 
 
-
+#ifdef BUILD_LINENOISE
+	#define LINENOISE_HISTORY_SIZE_LUA			10
+	#define LINENOISE_HISTORY_SIZE_SHELL		10
+	#define LINENOISE_AUTOSAVE_FNAME			"linenoise"
+#endif
 
 #ifdef BUILD_RFS
-#define RFS_UART_ID				2
-#define RFS_BUFFER_SIZE    		BUF_SIZE_512                        // size of the RFS UART buffer, cannot be 0
-#define RFS_TIMER_ID			0
-#define RFS_UART_SPEED			115200
-#define RFS_TIMEOUT       		100000
+	#define RFS_UART_ID				2
+	#define RFS_BUFFER_SIZE    		BUF_SIZE_512                        // size of the RFS UART buffer, cannot be 0
+	#define RFS_TIMER_ID			0
+	#define RFS_UART_SPEED			115200
+	#define RFS_TIMEOUT       		100000
 #endif
 
 
@@ -61,7 +66,7 @@
 #if defined( ELUA_BOARD_SOLDERCORE )
 	#define CON_UART_ID         CDC_UART_ID
 #elif defined( ELUA_BOARD_SARHA )
-	#define CON_UART_ID         1
+	#define CON_UART_ID         0
 #else
 	#define CON_UART_ID      	0
 #endif
@@ -224,7 +229,7 @@
 #define CON_BUF_SIZE          BUF_SIZE_128
 
 // ADC Configuration Params
-#define ADC_BIT_RESOLUTION    10
+#define ADC_BIT_RESOLUTION    12
 #define BUF_ENABLE_ADC
 #define ADC_BUF_SIZE          BUF_SIZE_2
 
