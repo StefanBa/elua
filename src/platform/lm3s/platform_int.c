@@ -34,6 +34,25 @@
 // ****************************************************************************
 // Interrupt handlers
 
+
+// ****************************************************************************
+// Interrupt: INT_TMR_MATCH																s.baumann
+
+static int int_tmr_match_set_status( elua_int_resnum resnum, int status )
+{
+  return PLATFORM_INT_NOT_HANDLED;
+}
+
+static int int_tmr_match_get_status( elua_int_resnum resnum )
+{
+  return PLATFORM_INT_NOT_HANDLED;
+}
+
+static int int_tmr_match_get_flag( elua_int_resnum resnum, int clear )
+{
+  return PLATFORM_INT_NOT_HANDLED;
+}
+
 // ----------------------------------------------------------------------------
 // UART_RX interrupt
 
@@ -106,7 +125,8 @@ void platform_int_init()
 // Must have a 1-to-1 correspondence with the interrupt enum in platform_conf.h!
 
 const elua_int_descriptor elua_int_table[ INT_ELUA_LAST ] = 
-{
+{																							//s.baumann
+  { int_tmr_match_set_status, int_tmr_match_get_status, int_tmr_match_get_flag },
   { int_uart_rx_set_status, int_uart_rx_get_status, int_uart_rx_get_flag }
 };
 

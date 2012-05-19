@@ -20,13 +20,14 @@
 
 #define BUILD_SHELL
 #define BUILD_ROMFS
-//#define BUILD_MMCFS
+#define BUILD_MMCFS
 #define BUILD_ADC
 #define BUILD_CON_GENERIC
 #define BUILD_C_INT_HANDLERS
-//#define BUILD_LINENOISE
 #define BUILD_XMODEM
+#define BUILD_LUA_INT_HANDLERS
 
+//#define BUILD_LINENOISE
 //#define BUILD_RFS
 //#define BUILD_USB_CDC
 //#define BUILD_UIP
@@ -37,6 +38,8 @@
 //#define BUILD_SERMUX
 
 #define PLATFORM_HAS_SYSTIMER
+
+#define PLATFORM_INT_QUEUE_LOG_SIZE 8
 
 
 #ifdef BUILD_CON_GENERIC
@@ -66,7 +69,7 @@
 #if defined( ELUA_BOARD_SOLDERCORE )
 	#define CON_UART_ID         CDC_UART_ID
 #elif defined( ELUA_BOARD_SARHA )
-	#define CON_UART_ID         0
+	#define CON_UART_ID         1
 #else
 	#define CON_UART_ID      	0
 #endif
@@ -303,7 +306,8 @@
 #define MEM_END_ADDRESS       { ( void* )( SRAM_BASE + SRAM_SIZE - STACK_SIZE_TOTAL - 1 ) }
 
 // Interrupt list
-#define INT_UART_RX           ELUA_INT_FIRST_ID
+#define INT_TMR_MATCH         ELUA_INT_FIRST_ID
+#define INT_UART_RX           ( ELUA_INT_FIRST_ID + 1 )
 #define INT_ELUA_LAST         INT_UART_RX
 
 // *****************************************************************************
@@ -360,6 +364,7 @@
   _C( INT_PWM3 ),\
   _C( INT_UDMA ),\
   _C( INT_UDMAERR ),\
-  _C( INT_UART_RX )
+  _C( INT_UART_RX ),\
+  _C( INT_TMR_MATCH )
 
 #endif // #ifndef __PLATFORM_CONF_H__

@@ -1375,4 +1375,8 @@ LUALIB_API int luaopen_platform( lua_State *L )
 }
 
 #endif // #ifdef ENABLE_DISP
+int platform_s_timer_set_match_int( unsigned id, timer_data_type period_us, int type )
+{
+  return PLATFORM_TIMER_INT_INVALID_ID;
+}
 

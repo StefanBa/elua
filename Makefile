@@ -12,8 +12,8 @@ BOARD = SARHA
 #BOARD = ek-lm3s9b92
 #BOARD = ek-lm3s8962
 
-#CPU = lm3s9d92
-CPU = lm3s9b92
+CPU = lm3s9d92
+#CPU = lm3s9b92
 #CPU = lm3s8962
 
 FLASHCONFIG = ek-lm3s9b92
