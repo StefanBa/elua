@@ -38,12 +38,14 @@
 #include "driverlib/systick.h"
 #include "driverlib/flash.h"
 #include "driverlib/interrupt.h"
+
 #include "elua_net.h"
 #include "dhcpc.h"
 #include "buf.h"
 #include "rit128x96x4.h"
 #include "disp.h"
 #include "utils.h"
+
 
 #if defined( FORLM3S9B92 )
   #define TARGET_IS_TEMPEST_RB1
@@ -65,6 +67,9 @@
 
 #include "driverlib/rom.h"
 #include "driverlib/rom_map.h"
+#include "driverlib/epi.h"
+
+
 
 // USB CDC Stuff
 #include "driverlib/usb.h"
@@ -153,6 +158,13 @@ int platform_init()
   MAP_SysTickIntEnable();
   MAP_IntMasterEnable();
 #endif
+
+/*// Initialize external memory
+SDRAMInit( 1 ,
+		(EPI_SDRAM_CORE_FREQ_50_100 | EPI_SDRAM_FULL_POWER |
+		EPI_SDRAM_SIZE_64MBIT), 1024);
+*/
+
 
   // All done
   return PLATFORM_OK;

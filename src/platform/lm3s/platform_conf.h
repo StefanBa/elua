@@ -13,6 +13,9 @@
 #include "sermux.h"                                             // for virtual uart IDs
 #include "buf.h"                                                // for buffer sizes
 
+#include "sdram.h"
+
+
 
 // *****************************************************************************
 // Define here what components you want for this platform
@@ -302,8 +305,14 @@
 
 // Allocator data: define your free memory zones here in two arrays
 // (start address and end address)
-#define MEM_START_ADDRESS     { ( void* )end }
-#define MEM_END_ADDRESS       { ( void* )( SRAM_BASE + SRAM_SIZE - STACK_SIZE_TOTAL - 1 ) }
+//#if defined( ELUA_BOARD_SARHA )
+//	#define MEM_START_ADDRESS     { ( void* )( 0x80400000 ) }
+//	#define MEM_END_ADDRESS       { ( void* )( 0x80000000 + SDRAM_SIZE_BYTES - 1 ) }
+//#else
+	#define MEM_START_ADDRESS     { ( void* )end }
+	#define MEM_END_ADDRESS       { ( void* )( SRAM_BASE + SRAM_SIZE - STACK_SIZE_TOTAL - 1 ) }
+//#endif
+
 
 // Interrupt list
 #define INT_TMR_MATCH         ELUA_INT_FIRST_ID

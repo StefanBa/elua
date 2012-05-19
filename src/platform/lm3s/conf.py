@@ -29,6 +29,10 @@ if comp[ 'cpu' ] == 'LM3S9B92' or comp[ 'cpu' ] == 'LM3S9D92':
   fwlib_files = fwlib_files + " " + " ".join(glob.glob("src/platform/%s/usblib/*.c" % platform))
   fwlib_files = fwlib_files + " " + " ".join(glob.glob("src/platform/%s/usblib/device/*.c" % platform))
   specific_files = specific_files + " usb_serial_structs.c"
+  
+if comp[ 'board' ] == 'SARHA':
+	specific_files = specific_files + " sdram.c "
+	specific_files = specific_files + " /third_party/bget/bget.c "
 
 
 if comp[ 'cpu' ] == 'LM3S9B92':
