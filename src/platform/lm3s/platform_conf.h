@@ -138,10 +138,10 @@
 #define PLATLINE
 #endif
 
-
+#define LUA_PLATFORM_LIBS_REG \
+  {LUA_OSLIBNAME, luaopen_os}
 
 #define LUA_PLATFORM_LIBS_ROM\
-  _ROM( AUXLIB_MYMOD, luaopen_mymod, mymod_map )\
   _ROM( AUXLIB_PIO, luaopen_pio, pio_map )\
   _ROM( AUXLIB_SPI, luaopen_spi, spi_map )\
   _ROM( AUXLIB_TMR, luaopen_tmr, tmr_map )\
@@ -160,6 +160,8 @@
   RPCLINE\
   _ROM( LUA_MATHLIBNAME, luaopen_math, math_map )\
   PLATLINE
+
+//  _ROM( AUXLIB_MYMOD, luaopen_mymod, mymod_map )
 
 // *****************************************************************************
 // Configuration data
