@@ -140,6 +140,10 @@ void platform_timer_sys_disable_int();
 #define platform_timer_get_max_cnt( id )      platform_timer_op( id, PLATFORM_TIMER_OP_GET_MAX_CNT, 0 )
 
 // *****************************************************************************
+// RTC subsection
+
+
+// *****************************************************************************
 // CAN subsection
 
 // Maximum length for any CAN message

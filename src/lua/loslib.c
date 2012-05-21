@@ -19,6 +19,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 #include "lrotable.h"
+#include "common.h"
 
 
 static int os_pushresult (lua_State *L, int i, const char *filename) {
@@ -75,8 +76,12 @@ static int os_getenv (lua_State *L) {
 
 
 static int os_clock (lua_State *L) {
-  lua_pushnumber(L, ((lua_Number)clock())/(lua_Number)CLOCKS_PER_SEC);
-  return 1;
+  //lua_Number id = luaL_checknumber(L, 1);
+  //lua_pushnumber(L, x);
+  //platform_timer_op()
+  //lua_pushnumber(L, ((lua_Number)clock())/(lua_Number)CLOCKS_PER_SEC);
+  //return 1;
+  return 0;
 }
 
 

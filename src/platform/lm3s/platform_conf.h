@@ -26,6 +26,7 @@
 #define BUILD_C_INT_HANDLERS
 #define BUILD_XMODEM
 #define BUILD_LUA_INT_HANDLERS
+#define BUILD_RTC
 
 //#define BUILD_LINENOISE
 //#define BUILD_RFS
@@ -75,12 +76,10 @@
 #endif
 #define CON_UART_SPEED        115200
 
-
-
 #define TERM_LINES            30
 #define TERM_COLS             80
 
-
+#define RTC_TIMER_ID			3
 
 // *****************************************************************************
 // Auxiliary libraries that will be compiled for this platform

@@ -93,6 +93,7 @@ static void eth_init();
 static void adcs_init();
 static void cans_init();
 static void usb_init();
+static void rtc_init();
 
 int platform_init()
 {
@@ -132,6 +133,11 @@ int platform_init()
 #ifdef BUILD_USB_CDC
   // Setup USB
   usb_init();
+#endif
+
+#ifdef BUILD_RTC
+  // Setup USB
+  rtc_init();
 #endif
 
   // Setup system timer
@@ -550,7 +556,6 @@ static void timers_init()
   {
     MAP_SysCtlPeripheralEnable(timer_sysctl[ i ]);
     MAP_TimerConfigure(timer_base[ i ], TIMER_CFG_32_BIT_PER);
-    //MAP_TimerConfigure(timer_base[ i ], TIMER_CFG_32_BIT_PER_UP);
     MAP_TimerEnable(timer_base[ i ], TIMER_A);
   }
 }
@@ -614,6 +619,18 @@ void platform_timer_sys_enable_int()
 timer_data_type platform_timer_read_sys()
 {
   return cmn_systimer_get();
+}
+
+// ****************************************************************************
+// Real Time Clock
+
+static void rtc_init()
+{
+  GPIOPinConfigure(GPIO_PCTL_PC6_CCP0);
+  MAP_SysCtlPeripheralEnable(timer_sysctl[ RTC_TIMER_ID ]);
+  MAP_TimerConfigure(timer_base[ RTC_TIMER_ID ], TIMER_CFG_32_RTC);
+  //MAP_TimerEnable(timer_base[ RTC_TIMER_ID ], TIMER_A);
+  MAP_TimerRTCEnable(timer_base[ RTC_TIMER_ID ]);
 }
 
 // ****************************************************************************
