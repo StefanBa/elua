@@ -26,7 +26,7 @@ static const luaL_Reg lualibs[] = {
 #if LUA_OPTIMIZE_MEMORY == 0
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_TABLIBNAME, luaopen_table},  
-  {LUA_DBLIBNAME, luaopen_debug},  
+  {LUA_DBLIBNAME, luaopen_debug},
 #endif
 #ifdef LUA_PLATFORM_LIBS_REG
   LUA_PLATFORM_LIBS_REG,

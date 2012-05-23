@@ -20,10 +20,12 @@ static int tmrh_timer_op( lua_State* L, int op )
 {
   unsigned id;
   timer_data_type res;
+  timer_data_type value;
     
   id = ( unsigned )luaL_optinteger( L, 1, PLATFORM_TIMER_SYS_ID );
   MOD_CHECK_TIMER( id );
-  res = platform_timer_op( id, op, 0 );
+  value = ( timer_data_type )luaL_optnumber( L, 2, 0xFFFFFFFF );
+  res = platform_timer_op( id, op, value );
   lua_pushnumber( L, ( lua_Number )res );
   return 1;  
 }

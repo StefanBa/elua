@@ -79,7 +79,7 @@
 #define TERM_LINES            30
 #define TERM_COLS             80
 
-#define RTC_TIMER_ID			3
+#define RTC_TIMER_ID			0
 
 // *****************************************************************************
 // Auxiliary libraries that will be compiled for this platform
@@ -137,8 +137,6 @@
 #define PLATLINE
 #endif
 
-#define LUA_PLATFORM_LIBS_REG \
-  {LUA_OSLIBNAME, luaopen_os}
 
 #define LUA_PLATFORM_LIBS_ROM\
   _ROM( AUXLIB_PIO, luaopen_pio, pio_map )\
@@ -158,9 +156,9 @@
   CANLINE\
   RPCLINE\
   _ROM( LUA_MATHLIBNAME, luaopen_math, math_map )\
-  PLATLINE
-
-//  _ROM( AUXLIB_MYMOD, luaopen_mymod, mymod_map )
+  PLATLINE\
+  _ROM( LUA_OSLIBNAME, luaopen_os, syslib)\
+  _ROM( AUXLIB_MYMOD, luaopen_mymod, mymod_map )
 
 // *****************************************************************************
 // Configuration data
@@ -238,7 +236,7 @@
 #define ADC_BUF_SIZE          BUF_SIZE_2
 
 // These should be adjusted to support multiple ADC devices
-#define ADC_TIMER_FIRST_ID    0
+#define ADC_TIMER_FIRST_ID    1
 #define ADC_NUM_TIMERS        NUM_TIMER  
 
 // RPC boot options

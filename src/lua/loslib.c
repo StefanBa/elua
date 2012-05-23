@@ -20,6 +20,7 @@
 #include "lualib.h"
 #include "lrotable.h"
 #include "common.h"
+#include "platform_conf.h"
 
 
 static int os_pushresult (lua_State *L, int i, const char *filename) {
@@ -131,7 +132,8 @@ static int getfield (lua_State *L, const char *key, int d) {
 
 static int os_date (lua_State *L) {
   const char *s = luaL_optstring(L, 1, "%c");
-  time_t t = luaL_opt(L, (time_t)luaL_checknumber, 2, time(NULL));
+  time_t timestamp = (time_t) (0xFFFFFFFF -  platform_timer_op( RTC_TIMER_ID, PLATFORM_TIMER_OP_READ, 0 ) );
+  time_t t = luaL_opt(L, (time_t)luaL_checknumber, 2, timestamp );
   struct tm *stm;
   if (*s == '!') {  /* UTC? */
     stm = gmtime(&t);
@@ -174,11 +176,10 @@ static int os_date (lua_State *L) {
   return 1;
 }
 
-
 static int os_time (lua_State *L) {
   time_t t;
   if (lua_isnoneornil(L, 1))  /* called without args? */
-    t = time(NULL);  /* get current time */
+    t = (time_t) (0xFFFFFFFF -  platform_timer_op( RTC_TIMER_ID, PLATFORM_TIMER_OP_READ, 0 ));
   else {
     struct tm ts;
     luaL_checktype(L, 1, LUA_TTABLE);
@@ -197,6 +198,13 @@ static int os_time (lua_State *L) {
   else
     lua_pushnumber(L, (lua_Number)t);
   return 1;
+}
+
+static int os_settime (lua_State *L) {
+  timer_data_type timestamp;
+  timestamp = ( timer_data_type )luaL_checknumber( L, 1 );
+  platform_timer_op( RTC_TIMER_ID, PLATFORM_TIMER_OP_START, timestamp );
+  return 0;
 }
 
 #if !defined LUA_NUMBER_INTEGRAL
@@ -231,6 +239,7 @@ static int os_exit (lua_State *L) {
 const LUA_REG_TYPE syslib[] = {
   {LSTRKEY("clock"),     LFUNCVAL(os_clock)},
   {LSTRKEY("date"),      LFUNCVAL(os_date)},
+  {LSTRKEY("settime"),      LFUNCVAL(os_settime)},
 #if !defined LUA_NUMBER_INTEGRAL
   {LSTRKEY("difftime"),  LFUNCVAL(os_difftime)},
 #endif

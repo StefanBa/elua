@@ -44,7 +44,7 @@ SCONS_BUILD =  board=$(BOARD)
 SCONS_BUILD += cpu=$(CPU)
 SCONS_BUILD += toolchain=codesourcery
 SCONS_BUILD += romfs=compile
-SCONS_BUILD += optram=0
+SCONS_BUILD += optram=1
 SCONS_BUILD += prog
 
 LM_FLASH = --quick-set=$(FLASHCONFIG)
@@ -54,7 +54,7 @@ LM_FLASH += $(TARGET).bin
 
 all:
 
-#	xcopy /y $(CWD)\..\ControlUnitGit\src $(CWD)\romfs
+	xcopy /y $(CWD)\..\ControlUnitGit\src $(CWD)\romfs
 	scons $(SCONS_BUILD)
 
 program_ocd: $(TARGET).bin

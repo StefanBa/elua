@@ -136,7 +136,7 @@ int platform_init()
 #endif
 
 #ifdef BUILD_RTC
-  // Setup USB
+  // Setup RTC
   rtc_init();
 #endif
 
@@ -579,9 +579,11 @@ timer_data_type platform_s_timer_op( unsigned id, int op,timer_data_type data )
   switch( op )
   {
     case PLATFORM_TIMER_OP_START:
-      res = 0xFFFFFFFF;
+      //res = 0xFFFFFFFF;
+      res = data;
       MAP_TimerControlTrigger(base, TIMER_A, false);
-      MAP_TimerLoadSet( base, TIMER_A, 0xFFFFFFFF );
+      //MAP_TimerLoadSet( base, TIMER_A, 0xFFFFFFFF );
+      MAP_TimerLoadSet( base, TIMER_A, res );
       break;
 
     case PLATFORM_TIMER_OP_READ:
@@ -626,11 +628,13 @@ timer_data_type platform_timer_read_sys()
 
 static void rtc_init()
 {
-  GPIOPinConfigure(GPIO_PCTL_PC6_CCP0);
-  MAP_SysCtlPeripheralEnable(timer_sysctl[ RTC_TIMER_ID ]);
+  GPIOPinConfigure( GPIO_PC6_CCP0 );
+  GPIOPinTypeTimer( GPIO_PORTC_BASE, GPIO_PIN_6 );
+
+  MAP_SysCtlPeripheralEnable( timer_sysctl[ RTC_TIMER_ID ]);
   MAP_TimerConfigure(timer_base[ RTC_TIMER_ID ], TIMER_CFG_32_RTC);
-  //MAP_TimerEnable(timer_base[ RTC_TIMER_ID ], TIMER_A);
   MAP_TimerRTCEnable(timer_base[ RTC_TIMER_ID ]);
+  MAP_TimerEnable(timer_base[ RTC_TIMER_ID ], TIMER_A);
 }
 
 // ****************************************************************************
