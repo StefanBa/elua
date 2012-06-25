@@ -393,7 +393,8 @@ static const u32 spi_gpio_clk_base[] = { GPIO_PORTA_BASE, GPIO_PORTH_BASE };
 static const u8 spi_gpio_clk_pin[] = { GPIO_PIN_2, GPIO_PIN_4 };
 #else
 static const u32 spi_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTE_BASE };
-static const u8 spi_gpio_pins[] = { GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5,
+//static const u8 spi_gpio_pins[] = { GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5,
+static const u8 spi_gpio_pins[] = { GPIO_PIN_4 | GPIO_PIN_5,
                                     GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 };
 //                                  SSIxClk      SSIxFss      SSIxRx       SSIxTx
 static const u32 spi_gpio_clk_base[] = { GPIO_PORTA_BASE, GPIO_PORTE_BASE };
