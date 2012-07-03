@@ -267,8 +267,8 @@
 <<<<<<< Updated upstream
 #elif defined( ELUA_BOARD_SARHA )
   // SARHA
-  #define MMCFS_CS_PORT                4
-  #define MMCFS_CS_PIN                 2
+  #define MMCFS_CS_PORT                0
+  #define MMCFS_CS_PIN                 3
   #define MMCFS_SPI_NUM                0
 #elif defined( BUILD_MMCFS ) && !defined( MMCFS_SPI_NUM )
   #warning "MMCFS was enabled, but required SPI & CS data are undefined, disabling MMCFS"
