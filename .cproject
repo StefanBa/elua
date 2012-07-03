@@ -29,6 +29,10 @@
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.376627849" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.1543058970" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1913810375" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="ELUA_BOARD_SARHA=ELUA_BOARD_SARHA"/>
+									<listOptionValue builtIn="false" value="FORLM3S9D92=FORLM3S9D92"/>
+								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1533067618" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 						</toolChain>

@@ -27,6 +27,7 @@
 #define BUILD_XMODEM
 #define BUILD_LUA_INT_HANDLERS
 #define BUILD_RTC
+#define BUILD_SDRAM
 
 //#define BUILD_LINENOISE
 //#define BUILD_RFS
@@ -200,14 +201,14 @@
   #define NUM_PIO             7
 #endif
 #if defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
-  #define NUM_SPI            2
+  #define NUM_SPI            1
 #else
   #define NUM_SPI            1
 #endif
 #if defined( FORLM3S6965 )
   #define NUM_UART            3
 #elif defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
-  #define NUM_UART            3
+  #define NUM_UART            2
 #else
   #define NUM_UART            2
 #endif
@@ -215,12 +216,12 @@
 #if defined( FORLM3S6918 )
   #define NUM_PWM             0
 #elif defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
-  #define NUM_PWM             8
+  #define NUM_PWM             4
 #else
   #define NUM_PWM             6
 #endif  
 #if defined( FORLM3S9B92 ) || defined( FORLM3S9D92 )
-#define NUM_ADC               16
+#define NUM_ADC               4
 #else
 #define NUM_ADC               4
 #endif
@@ -301,8 +302,14 @@
 
 // Allocator data: define your free memory zones here in two arrays
 // (start address and end address)
-#define MEM_START_ADDRESS     { ( void* )end }
-#define MEM_END_ADDRESS       { ( void* )( SRAM_BASE + SRAM_SIZE - STACK_SIZE_TOTAL - 1 ) }
+
+#if defined( BUILD_SDRAM )
+	#define MEM_START_ADDRESS     { 0x60000000 }
+	#define MEM_END_ADDRESS       { 0x60000000 + 0x800000 - 1 }
+#else
+	#define MEM_START_ADDRESS     { ( void* )end }
+	#define MEM_END_ADDRESS       { ( void* )( SRAM_BASE + SRAM_SIZE - STACK_SIZE_TOTAL - 1 ) }
+#endif
 
 // Interrupt list
 #define INT_TMR_MATCH         ELUA_INT_FIRST_ID

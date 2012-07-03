@@ -20,7 +20,7 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include "lrotable.h"
-#include "elua_int.h" 
+#include "elua_int.h"
 
 // Platform specific includes
 
@@ -38,6 +38,8 @@
 #include "driverlib/systick.h"
 #include "driverlib/flash.h"
 #include "driverlib/interrupt.h"
+#include "driverlib/sdram.h"
+#include "driverlib/epi.h"
 #include "elua_net.h"
 #include "dhcpc.h"
 #include "buf.h"
@@ -94,6 +96,7 @@ static void adcs_init();
 static void cans_init();
 static void usb_init();
 static void rtc_init();
+static void sdram_init();
 
 int platform_init()
 {
@@ -107,6 +110,11 @@ int platform_init()
 
   // Setup PIO
   pios_init();
+
+  #ifdef BUILD_SDRAM
+    // Setup SDRAM
+    sdram_init();
+  #endif
 
   // Setup SSIs
   spis_init();
@@ -159,7 +167,6 @@ int platform_init()
   MAP_SysTickIntEnable();
   MAP_IntMasterEnable();
 #endif
-
   // All done
   return PLATFORM_OK;
 }
@@ -391,10 +398,17 @@ static const u8 spi_gpio_pins[] = {  GPIO_PIN_4 | GPIO_PIN_5,
 
 static const u32 spi_gpio_clk_base[] = { GPIO_PORTA_BASE, GPIO_PORTH_BASE };
 static const u8 spi_gpio_clk_pin[] = { GPIO_PIN_2, GPIO_PIN_4 };
+
+#elif defined( ELUA_BOARD_SARHA )
+static const u32 spi_gpio_base[] = { GPIO_PORTA_BASE };
+static const u8 spi_gpio_pins[] = { GPIO_PIN_4 | GPIO_PIN_5};
+//                                  SSIxRx       SSIxTx
+static const u32 spi_gpio_clk_base[] = { GPIO_PORTA_BASE };
+static const u8 spi_gpio_clk_pin[] = { GPIO_PIN_2 };
+
 #else
 static const u32 spi_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTE_BASE };
-//static const u8 spi_gpio_pins[] = { GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5,
-static const u8 spi_gpio_pins[] = { GPIO_PIN_4 | GPIO_PIN_5,
+static const u8 spi_gpio_pins[] = { GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5,
                                     GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 };
 //                                  SSIxClk      SSIxFss      SSIxRx       SSIxTx
 static const u32 spi_gpio_clk_base[] = { GPIO_PORTA_BASE, GPIO_PORTE_BASE };
@@ -462,8 +476,8 @@ const u32 uart_base[] = { UART0_BASE, UART1_BASE, UART2_BASE };
 static const u32 uart_sysctl[] = { SYSCTL_PERIPH_UART0, SYSCTL_PERIPH_UART1, SYSCTL_PERIPH_UART2 };
 
 #if defined( ELUA_BOARD_SARHA )
-	static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTB_BASE, GPIO_PORTG_BASE };
-	static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1 };
+	static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTB_BASE };
+	static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_0 | GPIO_PIN_1 };
 #else
 	static const u32 uart_gpio_base[] = { GPIO_PORTA_BASE, GPIO_PORTD_BASE, GPIO_PORTG_BASE };
 	static const u8 uart_gpio_pins[] = { GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_2 | GPIO_PIN_3, GPIO_PIN_0 | GPIO_PIN_1 };
@@ -484,8 +498,6 @@ u32 platform_uart_setup( unsigned id, u32 baud, int databits, int parity, int st
 #if defined( ELUA_BOARD_SARHA )
   GPIOPinConfigure(GPIO_PB0_U1RX);
   GPIOPinConfigure(GPIO_PB1_U1TX);
-  GPIOPinConfigure(GPIO_PG0_U2RX);
-  GPIOPinConfigure(GPIO_PG1_U2TX);
 #endif
 
   if( id < NUM_UART )
@@ -629,14 +641,54 @@ timer_data_type platform_timer_read_sys()
 
 static void rtc_init()
 {
-  GPIOPinConfigure( GPIO_PC6_CCP0 );
-  GPIOPinTypeTimer( GPIO_PORTC_BASE, GPIO_PIN_6 );
+  GPIOPinConfigure( GPIO_PJ7_CCP0 );
+  GPIOPinTypeTimer( GPIO_PORTJ_BASE, GPIO_PIN_7 );
 
   MAP_SysCtlPeripheralEnable( timer_sysctl[ RTC_TIMER_ID ]);
   MAP_TimerConfigure(timer_base[ RTC_TIMER_ID ], TIMER_CFG_32_RTC);
   MAP_TimerRTCEnable(timer_base[ RTC_TIMER_ID ]);
   MAP_TimerEnable(timer_base[ RTC_TIMER_ID ], TIMER_A);
 }
+
+// ****************************************************************************
+// SDRAM
+
+static void sdram_init()
+{
+    GPIOPinConfigure(GPIO_PC4_EPI0S2);
+    GPIOPinConfigure(GPIO_PC5_EPI0S3);
+    GPIOPinConfigure(GPIO_PC6_EPI0S4);
+    GPIOPinConfigure(GPIO_PC7_EPI0S5);
+
+    GPIOPinConfigure(GPIO_PE0_EPI0S8);
+    GPIOPinConfigure(GPIO_PE1_EPI0S9);
+
+    GPIOPinConfigure(GPIO_PF4_EPI0S12);
+    GPIOPinConfigure(GPIO_PF5_EPI0S15);
+
+    GPIOPinConfigure(GPIO_PG0_EPI0S13);
+    GPIOPinConfigure(GPIO_PG1_EPI0S14);
+    GPIOPinConfigure(GPIO_PG7_EPI0S31);
+
+    GPIOPinConfigure(GPIO_PH0_EPI0S6);
+    GPIOPinConfigure(GPIO_PH1_EPI0S7);
+    GPIOPinConfigure(GPIO_PH2_EPI0S1);
+    GPIOPinConfigure(GPIO_PH3_EPI0S0);
+    GPIOPinConfigure(GPIO_PH4_EPI0S10);
+    GPIOPinConfigure(GPIO_PH5_EPI0S11);
+
+    GPIOPinConfigure(GPIO_PJ0_EPI0S16);
+    GPIOPinConfigure(GPIO_PJ1_EPI0S17);
+    GPIOPinConfigure(GPIO_PJ2_EPI0S18);
+    GPIOPinConfigure(GPIO_PJ3_EPI0S19);
+    GPIOPinConfigure(GPIO_PJ4_EPI0S28);
+    GPIOPinConfigure(GPIO_PJ5_EPI0S29);
+    GPIOPinConfigure(GPIO_PJ6_EPI0S30);
+
+    SDRAMInit(1,(EPI_SDRAM_CORE_FREQ_50_100 | EPI_SDRAM_FULL_POWER | EPI_SDRAM_SIZE_64MBIT), 1024);
+
+}
+
 
 // ****************************************************************************
 // PWMs
@@ -657,6 +709,10 @@ const static u8 pwm_div_data[] = { 1, 2, 4, 8, 16, 32, 64 };
   const static u32 pwm_ports[] =  { GPIO_PORTG_BASE, GPIO_PORTD_BASE, GPIO_PORTD_BASE, GPIO_PORTD_BASE, GPIO_PORTE_BASE, GPIO_PORTE_BASE, GPIO_PORTC_BASE, GPIO_PORTC_BASE };
   const static u8 pwm_pins[] = { GPIO_PIN_0, GPIO_PIN_1, GPIO_PIN_2, GPIO_PIN_3, GPIO_PIN_6, GPIO_PIN_7,  GPIO_PIN_4,  GPIO_PIN_6 };
   const static u32 pwm_configs[] = { GPIO_PG0_PWM0, GPIO_PD1_PWM1, GPIO_PD2_PWM2, GPIO_PD3_PWM3, GPIO_PE6_PWM4, GPIO_PE7_PWM5, GPIO_PC4_PWM6, GPIO_PC6_PWM7 };
+#elif defined( ELUA_BOARD_SARHA )  && defined( FORLM3S9D92 )
+  const static u32 pwm_ports[] =  { GPIO_PORTD_BASE };
+  const static u8 pwm_pins[] = { GPIO_PIN_0, GPIO_PIN_1, GPIO_PIN_2, GPIO_PIN_3 };
+  const static u32 pwm_configs[] = { GPIO_PD0_PWM0, GPIO_PD1_PWM1, GPIO_PD2_PWM2, GPIO_PD3_PWM3 };
 #elif defined( FORLM3S9B92 ) || ( defined(FORLM3S9D92) && !defined( ELUA_BOARD_SOLDERCORE ) )
   const static u32 pwm_ports[] =  { GPIO_PORTD_BASE, GPIO_PORTD_BASE, GPIO_PORTD_BASE, GPIO_PORTD_BASE, GPIO_PORTE_BASE, GPIO_PORTE_BASE, GPIO_PORTC_BASE, GPIO_PORTC_BASE };
   const static u8 pwm_pins[] = { GPIO_PIN_0, GPIO_PIN_1, GPIO_PIN_2, GPIO_PIN_3, GPIO_PIN_6, GPIO_PIN_7,  GPIO_PIN_4,  GPIO_PIN_6 };
@@ -675,7 +731,8 @@ const static u8 pwm_div_data[] = { 1, 2, 4, 8, 16, 32, 64 };
 
 // PWM outputs
 #if defined( FORLM3S9B92 ) || defined(FORLM3S9D92)
-const static u16 pwm_outs[] = { PWM_OUT_0, PWM_OUT_1, PWM_OUT_2, PWM_OUT_3, PWM_OUT_4, PWM_OUT_5, PWM_OUT_6, PWM_OUT_7};
+//const static u16 pwm_outs[] = { PWM_OUT_0, PWM_OUT_1, PWM_OUT_2, PWM_OUT_3, PWM_OUT_4, PWM_OUT_5, PWM_OUT_6, PWM_OUT_7};
+const static u16 pwm_outs[] = { PWM_OUT_0, PWM_OUT_1, PWM_OUT_2, PWM_OUT_3 };
 #else
 const static u16 pwm_outs[] = { PWM_OUT_0, PWM_OUT_1, PWM_OUT_2, PWM_OUT_3, PWM_OUT_4, PWM_OUT_5 };
 #endif

@@ -43,6 +43,7 @@ OOCD_FLASH += -c shutdown
 SCONS_BUILD =  board=$(BOARD)
 SCONS_BUILD += cpu=$(CPU)
 SCONS_BUILD += toolchain=codesourcery
+SCONS_BUILD += allocator=multiple
 SCONS_BUILD += romfs=compile
 SCONS_BUILD += optram=1
 SCONS_BUILD += prog

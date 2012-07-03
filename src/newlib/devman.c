@@ -23,20 +23,20 @@ char dm_shared_fname[ DM_MAX_FNAME_LENGTH + 1 ];
 int dm_register( const DM_DEVICE *pdev )
 {
   int i;
-  
+
   // First char of the name must be '/'
   if( pdev == NULL || pdev->name == NULL || *pdev->name != '/' || strlen( pdev->name ) > DM_MAX_DEV_NAME )
     return DM_ERR_INVALID_NAME;
-  
+
   // Check if the device is not already registered
   for( i = 0; i < dm_num_devs; i ++ )
     if( !strcasecmp( pdev->name, dm_list[ i ]->name ) )
       return DM_ERR_ALREADY_REGISTERED;
-  
+
   // Check for space
   if( dm_num_devs == DM_MAX_DEVICES )
     return DM_ERR_NO_SPACE;
-    
+
   // Register it now
   dm_list[ dm_num_devs ++ ] = pdev;
   return dm_num_devs - 1;
