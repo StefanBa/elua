@@ -94,7 +94,10 @@ static void vtmr_reset_timer( unsigned vid )
   unsigned id = VTMR_GET_ID( vid );
 
   vtmr_reset_idx = ( s8 )id;
-  while( vtmr_reset_idx != -1 );  
+  vtmr_counters[ vtmr_reset_idx ] = 0;
+  vtmr_reset_idx = -1;
+  //while( vtmr_reset_idx != -1 );
+
 }
 
 static void vtmr_delay( unsigned vid, timer_data_type delay_us )

@@ -189,7 +189,7 @@
 // Configuration data
 
 // Virtual timers (0 if not used)
-#define VTMR_NUM_TIMERS       8
+#define VTMR_NUM_TIMERS       9
 #define VTMR_FREQ_HZ          4
 
 // Number of resources (0 if not available/not implemented)
